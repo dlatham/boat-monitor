@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_24_174645) do
+ActiveRecord::Schema.define(version: 2018_12_25_042914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,16 @@ ActiveRecord::Schema.define(version: 2018_12_24_174645) do
   create_table "bilges", force: :cascade do |t|
     t.integer "pump_no"
     t.float "duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "phone"
+    t.string "name"
+    t.boolean "bilge_main"
+    t.boolean "bilge_backup"
+    t.boolean "charge_error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

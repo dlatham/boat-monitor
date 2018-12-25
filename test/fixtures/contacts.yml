@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  phone: 
+  name: MyString
+  bilge_main: false
+  bilge_backup: false
+  charge_error: false
+
+two:
+  phone: 
+  name: MyString
+  bilge_main: false
+  bilge_backup: false
+  charge_error: false

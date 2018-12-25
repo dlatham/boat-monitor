@@ -28,3 +28,4 @@
 #Custom
 .DS_Store
 /db/seeds.rb
+.env

@@ -21,6 +21,13 @@ Then you can `rake db:create` and `rake db:migrate` and finally `rake db:seed` t
 
 **API Authentication** IoT devices can access the API using HMAC signatures. Each device that requires access to the API should be registered under `/probes/new` in order to generate a secret key that should be used (along with the probe ID) to authenticate the request being made to the API. See references below for more information.
 
+**Twilio Setup** The application uses dotenv for environment variables in development. Create a `/.env` file and add your Twilio account credentials:
+
+```
+TWILIO_ACCOUNT_SID=your_account_sid_here
+TWILIO_AUTH_TOKEN=your_account_auth_token_here
+```
+
 
 ## References
  - https://www.yelloworb.com/orbblog/how-to-create-a-reasonably-secure-arduino-client-that-post-data-into-a-rails-application-part-i/

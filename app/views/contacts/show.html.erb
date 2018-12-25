@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @contact.phone %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @contact.name %>
+</p>
+
+<p>
+  <strong>Bilge main:</strong>
+  <%= @contact.bilge_main %>
+</p>
+
+<p>
+  <strong>Bilge backup:</strong>
+  <%= @contact.bilge_backup %>
+</p>
+
+<p>
+  <strong>Charge error:</strong>
+  <%= @contact.charge_error %>
+</p>
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>
