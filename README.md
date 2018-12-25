@@ -26,6 +26,7 @@ Then you can `rake db:create` and `rake db:migrate` and finally `rake db:seed` t
 ```
 TWILIO_ACCOUNT_SID=your_account_sid_here
 TWILIO_AUTH_TOKEN=your_account_auth_token_here
+TWILIO_FROM=your_from_phone_number
 ```
 
 

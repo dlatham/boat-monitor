@@ -1,2 +1,0 @@
-class TwilioController < ApplicationController
-end
