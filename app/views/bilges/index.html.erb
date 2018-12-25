@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bilges</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Pump_No</th>
+      <th>Duration</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bilges.each do |bilge| %>
+      <tr>
+        <td><%= bilge.id %></td>
+        <td><%= bilge.pump_no %></td>
+        <td><%= bilge.duration %></td>
+        <td><%= link_to 'Show', bilge %></td>
+        <td><%= link_to 'Edit', edit_bilge_path(bilge) %></td>
+        <td><%= link_to 'Destroy', bilge, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bilge', new_bilge_path %>

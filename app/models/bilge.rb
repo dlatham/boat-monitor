@@ -1,0 +1,2 @@
+class Bilge < ApplicationRecord
+end
