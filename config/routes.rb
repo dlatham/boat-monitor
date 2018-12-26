@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'jobs/index'
+  get 'jobs/view'
   resources :contacts
   devise_for :users
   resources :probes

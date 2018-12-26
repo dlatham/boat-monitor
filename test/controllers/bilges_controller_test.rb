@@ -28,7 +28,8 @@ class BilgesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should @signed_request = ApiAuth.sign!(@request, @probe_id, @secret_key)
+  response = @signed_request.execute()get edit" do
     get edit_bilge_url(@bilge)
     assert_response :success
   end
@@ -45,4 +46,5 @@ class BilgesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to bilges_url
   end
+
 end

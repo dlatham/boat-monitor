@@ -46,6 +46,9 @@ gem 'devise'
 gem 'openssl'
 gem 'rest-client'
 
+# Not a heavy database use app so we'll use dalayed job instead of resque
+gem 'delayed_job_active_record'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

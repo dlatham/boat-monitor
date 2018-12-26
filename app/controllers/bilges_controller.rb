@@ -34,7 +34,8 @@ class BilgesController < ApplicationController
 
     respond_to do |format|
       if @bilge.save
-        #TwilioTextMessenger.new("Bilge reading saved.", "PHONE_NUMBER_HERE").call - need to add multiple contact update here
+        # - need to add multiple contact update here
+        @bilge.delay.notify_contacts!
         format.html { redirect_to @bilge, notice: 'Bilge was successfully created.' }
         format.json { render :show, status: :created, location: @bilge }
       else
