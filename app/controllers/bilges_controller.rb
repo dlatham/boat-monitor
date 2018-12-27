@@ -1,8 +1,8 @@
 class BilgesController < ApplicationController
   # require any kind of change and creation of a measure to come through our authenticated api using HMAC 
   # and we skip the CSRF check for these requests
-  before_action :require_authenticated_api, only: [:edit, :update, :destroy, :create]
-  #before_action :authenticate_user!
+  before_action :require_authenticated_api, only: [:create]
+  before_action :authenticate_user!, only: [:index, :show, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: [:edit, :update, :destroy, :create]
 
   before_action :set_bilge, only: [:show, :edit, :update, :destroy]
