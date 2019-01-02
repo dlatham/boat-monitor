@@ -11,6 +11,8 @@ class ProbesController < ApplicationController
   # GET /probes/1
   # GET /probes/1.json
   def show
+    @heartbeats = Heartbeat.where(probe_id: @probe.id).limit(20)
+    # @heartbeats.limit(20)
   end
 
   # GET /probes/new
@@ -71,6 +73,6 @@ class ProbesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def probe_params
-      params.require(:probe).permit(:name, :secret)
+      params.require(:probe).permit(:name, :secret, :username, :password, :hmac)
     end
 end

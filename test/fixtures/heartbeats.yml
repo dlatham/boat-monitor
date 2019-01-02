@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sensor: one
+  voltage: 1.5
+  temp: 1.5
+  humid: 1.5
+
+two:
+  sensor: two
+  voltage: 1.5
+  temp: 1.5
+  humid: 1.5

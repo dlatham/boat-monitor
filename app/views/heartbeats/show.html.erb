@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sensor:</strong>
+  <%= @heartbeat.probe %>
+</p>
+
+<p>
+  <strong>Voltage:</strong>
+  <%= @heartbeat.voltage %>
+</p>
+
+<p>
+  <strong>Temp:</strong>
+  <%= @heartbeat.temp %>
+</p>
+
+<p>
+  <strong>Humid:</strong>
+  <%= @heartbeat.humid %>
+</p>
+
+<%= link_to 'Edit', edit_heartbeat_path(@heartbeat) %> |
+<%= link_to 'Back', heartbeats_path %>

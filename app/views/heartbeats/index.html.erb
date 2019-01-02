@@ -1,40 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @probe.name %>
-</p>
-
-<p>
-  <strong>Secret:</strong>
-  <%= @probe.secret %>
-</p>
-
-<p>
-  <strong>Username:</strong>
-  <%= @probe.username %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @probe.password %>
-</p>
-
-<p>
-  <strong>Use HMAC:</strong>
-  <%= @probe.hmac %>
-</p>
-
-<h2>Heartbeats</h2>
+<h1>Heartbeats</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Probe</th>
+      <th>Sensor</th>
       <th>Voltage</th>
       <th>Temp</th>
       <th>Humid</th>
-      <th>Timestampe</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -46,7 +20,6 @@
         <td><%= heartbeat.voltage %></td>
         <td><%= heartbeat.temp %></td>
         <td><%= heartbeat.humid %></td>
-        <td><%= heartbeat.created_at %></td>
         <td><%= link_to 'Show', heartbeat %></td>
         <td><%= link_to 'Edit', edit_heartbeat_path(heartbeat) %></td>
         <td><%= link_to 'Destroy', heartbeat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -55,5 +28,6 @@
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_probe_path(@probe) %> |
-<%= link_to 'Back', probes_path %>
+<br>
+
+<%= link_to 'New Heartbeat', new_heartbeat_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_25_203741) do
+ActiveRecord::Schema.define(version: 2019_01_01_032155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,11 +47,24 @@ ActiveRecord::Schema.define(version: 2018_12_25_203741) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "heartbeats", force: :cascade do |t|
+    t.bigint "probe_id"
+    t.float "voltage"
+    t.float "temp"
+    t.float "humid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["probe_id"], name: "index_heartbeats_on_probe_id"
+  end
+
   create_table "probes", force: :cascade do |t|
     t.string "name"
     t.string "secret"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.string "password"
+    t.boolean "hmac"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,4 +79,5 @@ ActiveRecord::Schema.define(version: 2018_12_25_203741) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "heartbeats", "probes"
 end

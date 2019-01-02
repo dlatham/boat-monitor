@@ -1,0 +1,37 @@
+<%= form_with(model: heartbeat, local: true) do |form| %>
+  <% if heartbeat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(heartbeat.errors.count, "error") %> prohibited this heartbeat from being saved:</h2>
+
+      <ul>
+      <% heartbeat.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :probe_id %>
+    <%= form.text_field :probe_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :voltage %>
+    <%= form.text_field :voltage %>
+  </div>
+
+  <div class="field">
+    <%= form.label :temp %>
+    <%= form.text_field :temp %>
+  </div>
+
+  <div class="field">
+    <%= form.label :humid %>
+    <%= form.text_field :humid %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
