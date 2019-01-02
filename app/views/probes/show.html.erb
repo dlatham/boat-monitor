@@ -27,6 +27,8 @@
 
 <h2>Heartbeats</h2>
 
+<%= line_chart Heartbeat.group_by_hour(:created_at).average(:temp) %>
+
 <table>
   <thead>
     <tr>

@@ -53,6 +53,10 @@ gem 'delayed_job_active_record'
 gem 'bootstrap', '~> 4.2.1'
 gem 'jquery-rails'
 
+# Support for charting
+gem 'chartkick'
+gem 'groupdate'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
