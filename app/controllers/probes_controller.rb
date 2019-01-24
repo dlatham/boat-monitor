@@ -11,7 +11,7 @@ class ProbesController < ApplicationController
   # GET /probes/1
   # GET /probes/1.json
   def show
-    @heartbeats = Heartbeat.where(probe_id: @probe.id).limit(20)
+    @heartbeats = Heartbeat.where(probe_id: @probe.id).last(20).reverse
     # @heartbeats.limit(20)
   end
 
