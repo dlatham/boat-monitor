@@ -1,7 +1,7 @@
 class BilgesController < ApplicationController
   # require any kind of change and creation of a measure to come through our authenticated api using HMAC 
   # and we skip the CSRF check for these requests
-  before_action :require_authenticated_api, only: [:create]
+  before_action :http_basic_authenticate, only: [:create]
   before_action :authenticate_user!, only: [:index, :show, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: [:edit, :update, :destroy, :create]
 
@@ -80,7 +80,16 @@ class BilgesController < ApplicationController
       params.require(:bilge).permit(:id, :pump_no, :duration)
     end
 
+    def http_basic_authenticate
+      @probe = Probe.find(params[:probe_id])
+      # ADD CODE HERE TO SUPPORT HMAC IF CONFIGURED
+      authenticate_or_request_with_http_basic do |username, password|
+        username == @probe.username && password == @probe.password
+      end
+    end
+
     def require_authenticated_api
+      # THIS IS OLD and from back when I was using HMAC auth. Particle only supports basic auth
     @current_probe = Probe.find_by_id(ApiAuth.access_id(request))
     logger.info request.raw_post # needed due to a bug in api_auth
     # if a probe could not be found via the access id or the one found did not authenticate with the data in the request
