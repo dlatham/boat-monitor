@@ -2,7 +2,7 @@
 
 <h1>Bilges</h1>
 
-<%= line_chart Bilge.group_by_hour(:created_at).average(:duration) %>
+<%= line_chart Bilge.group_by_hour(:created_at, range: 2.months.ago.midnight..Time.now).average(:duration) %>
 
 <table>
   <thead>
