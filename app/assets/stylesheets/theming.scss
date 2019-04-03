@@ -1,0 +1,45 @@
+/* GENERAL overrides */
+body {
+	background-color: #6c757d;
+}
+
+/* OVERRIDES for the navbar */
+.navbar-toggler, .navbar-toggler:focus, .navbar-toggler:active {
+    outline: none;
+    box-shadow: none;
+    border: 0;
+ }
+ .dropdown-toggle::after {
+ 	display: none;
+ }
+ #settingsButton {
+ 	background-color: transparent;
+ 	color: rgba(255, 255, 255, 0.5);
+ 	border: 0;
+ }
+ .nav-pills .nav-link.active {
+ 	background-color: transparent;
+ 	border-bottom: solid 3px;
+ 	border-radius: 0;
+ }
+
+ /* DASHBOARD overrides */
+ .jumbotron {
+  color: black;
+  background-image: url(asset-path("bg1.jpg"));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+ /* icons from feather icons: https://feathericons.com/ */
+ .feather {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}

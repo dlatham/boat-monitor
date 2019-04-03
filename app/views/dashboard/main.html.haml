@@ -1,0 +1,12 @@
+.jumbotron.jumbotron-fluid
+	.container
+		.card.time= Time.now.strftime("%l:%M%P")
+		.card.time
+			= @temperature[:inside][:temp].html_safe
+			= @temperature[:inside][:last_update]
+			= @temperature[:outside][:temp].html_safe
+			= @temperature[:outside][:last_update]
+		.card.location
+			.spinner-border{role: "status", id: "location-spinner"}
+				%span.sr-only Loading...
+			.location-content

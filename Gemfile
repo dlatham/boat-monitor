@@ -52,6 +52,7 @@ gem 'delayed_job_active_record'
 # Some UI stuff
 gem 'bootstrap', '~> 4.2.1'
 gem 'jquery-rails'
+gem 'haml'
 
 # Support for charting
 gem 'chartkick'

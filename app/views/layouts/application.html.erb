@@ -10,17 +10,10 @@
   </head>
 
   <body>
-    <%= render "layouts/nav" %>
     <% flash.each do |name, msg| -%>
       <%= content_tag :div, msg, class: name %>
     <% end -%>
-    <% if user_signed_in? %>
-     Current user: <%= current_user.email %>
-    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-    <% else %>
-    <%= link_to('Login', new_user_session_path)  %>
-    <% end %>
-
+    <%= render "layouts/nav" %>
     <%= yield %>
   </body>
 </html>

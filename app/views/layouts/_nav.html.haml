@@ -1,0 +1,25 @@
+%nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+	%button.navbar-toggler{"data-toggle" => "collapse", "data-target" => "#navbarToggler", "aria-controls" => "navbarToggler", "aria-expanded" => "false", "aria-label" => "Toggle Navigation"}
+		%span.navbar-toggle-icon
+			%svg.feather
+				%use{"xlink:href" => image_path("feather-sprite.svg#menu")}
+	%a.navbar-brand{href: "/", border: 0}= image_tag "logo_lt.svg", size: "100"
+
+	.dropdown.float-right
+		%button.dropdown-toggle{"data-toggle" => "dropdown", "aria-haspopup" => "true", "aria-expanded" => "false", "id" => "settingsButton"}
+			%svg.feather
+				%use{"xlink:href" => image_path("feather-sprite.svg#chevrons-down")}
+		.dropdown-menu.dropdown-menu-right{id: "settingsCollapse"}
+			= link_to "Settings", "/", {class: "dropdown-item"}
+			= link_to "Sensors", "/probes", {class: "dropdown-item"}
+			- if user_signed_in?
+				= link_to('Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item")
+			- else
+				= link_to('Sign In', new_user_session_path, class: "dropdown-item")
+
+	.collapse.navbar-collapse{id: "navbarToggler"}
+		%ul.navbar-nav.nav-pills
+			%li.nav-item= link_to "Lights", "/", {class: "nav-link"}
+			%li.nav-item= link_to "Charging", "/", {class: "nav-link"}
+			%li.nav-item= link_to "Mechanical", "/bilges", {class: "nav-link"}
+			%li.nav-item= link_to "Music", "/", {class: "nav-link"}
