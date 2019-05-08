@@ -50,7 +50,7 @@ gem 'rest-client'
 gem 'delayed_job_active_record'
 
 # Some UI stuff
-gem 'bootstrap', '~> 4.2.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'haml'
 
