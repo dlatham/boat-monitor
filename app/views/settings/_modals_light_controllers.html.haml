@@ -1,0 +1,23 @@
+-# NEW LIGHT CONTROLLER MODAL
+.modal.fade{tabindex: "-1", role: "dialog", id: "new_light_controller"}
+	.modal-dialog.modal-lg{role: "document"}
+		.modal-content
+			.modal-header
+				%h5.modal-title Add a light controller
+				%button.close{ type: "button", "data-dismiss" => "modal", "aria-label" => "Close" }
+					%span{ "aria-hidden" => "true"} &times;
+			.modal-body
+				%p Lighting controllers are stored globally but the local and remote URLs can be overidden at a device level. You'll set the defaults here.
+				= render "light_controllers/new_form"
+
+-# VIEW CONTROLLER MODAL
+.modal.fade{tabindex: "-1", role: "dialog", id: "show_light_controller"}
+	.modal-dialog.modal-lg{role: "document"}
+		.modal-content
+			.modal-header
+				%h5.modal-title.light_controller_name Light Controller
+				%button.close{ type: "button", "data-dismiss" => "modal", "aria-label" => "Close" }
+					%span{ "aria-hidden" => "true"} &times;
+			.modal-body
+				%p Lighting controllers are stored globally but the local and remote URLs can be overidden at a device level. You'll set the defaults here.
+				=render "light_controllers/show_form"

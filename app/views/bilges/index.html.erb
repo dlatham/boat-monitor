@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Bilges</h1>
+<h1 class="display-4">Bilges</h1>
 
-<%= area_chart Bilge.group_by_day(:created_at, range: 2.weeks.ago.midnight..Time.now).count %>
+<%= area_chart Bilge.group_by_day(:created_at, range: 2.weeks.ago.midnight..Time.now).count, id: "bilge-chart", library: {backgroundColor: "red", borderColor: "#ffffff"} %>
 
 <table>
   <thead>

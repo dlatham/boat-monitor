@@ -1,0 +1,38 @@
+= form_with(model: @light_controller, local: true) do |f|
+	.form-row
+		= f.label :name, class: "col-sm-2 col-form-label"
+		.col-sm-10= f.text_field :name, class: "form-control", onkeyup: "lightControllerNameChange(this)"
+	.form-row.mt-3
+		= f.label :slug, class: "col-sm-2 col-form-label"
+		.col-sm-10= f.text_field :slug, class: "form-control", readonly: "true"
+	.form-row.mt-3
+		= f.label :local_base_url, class: "col-sm-2 col-form-label"
+		.col-sm-10
+			.input-group
+				.input-group-prepend
+					%span.input-group-text
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#server")}
+							%title Default stored on the server
+					%span.input-group-text https://
+				=f.text_field :local_base_url, class: "form-control"
+	.form-row.mt-3
+		= f.label :remote_base_url, class: "col-sm-2 col-form-label"
+		.col-sm-10
+			.input-group
+				.input-group-prepend
+					%span.input-group-text
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#server")}
+							%title Default stored on the server
+					%span.input-group-text https://
+				=f.text_field :remote_base_url, class: "form-control"
+	.form-row.mt-3
+		= f.label :username, class: "col-sm-2 col-form-label"
+		.col-sm-10= f.text_field :username, class: "form-control"
+	.form-row.mt-3
+		= f.label :password, class: "col-sm-2 col-form-label"
+		.col-sm-10= f.password_field :password, class: "form-control"
+	.form-row.mt-3
+		= f.hidden_field :status, value: [{status: "New", description: "New device, needs configuration.", created_at: Time.now}].to_json
+		= f.submit :save, class: "btn btn-primary"

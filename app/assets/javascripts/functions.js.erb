@@ -1,0 +1,77 @@
+$( document ).ready(function() {
+	// Handler loader button clicks
+	$("button.loader").click(function() {
+		console.log($(this).text());
+		$(this).text("");
+		$(this).addClass("loading");
+		$("button").attr("disabled", true); // Disable all buttons to prevent duplicate submissions
+		$(this).html("<span class='spinner-border spinner-border-sm'></span>");
+	});
+
+	// Handle geo location on applicable pages
+	if (do_geo_location)
+	{
+		console.log( "Requesting geolocation..." );
+	    if (navigator.geolocation){
+	        navigator.geolocation.getCurrentPosition(showPosition);
+	        console.log( "Requesting geolocation..." );
+	    } else {
+	    	console.log( "Geolocation not supported by this browser." );
+	    }
+
+	}
+
+	handle_date_shortener();
+
+});
+
+function handle_success() {
+	$("button").attr("disabled", false);
+	$("button.loader.loading").html("<svg class=\"feather\"><use xlink:href=\"<%= image_path("feather-sprite.svg#check") %>\"/></svg>");
+	//$("button.loader.loading").removeClass('[class^="btn-"]');
+	$("button.loader.loading").addClass("btn-success");
+	$("button.loader.loading").removeClass("loading");
+}
+
+function handle_failure() {
+	$("button").attr("disabled", false);
+	$("button.loader.loading").html("<svg class=\"feather\"><use xlink:href=\"<%= image_path("feather-sprite.svg#x-circle") %>\"/></svg>");
+	//$("button.loader.loading").removeClass('[class^="btn-"]');
+	$("button.loader.loading").addClass("btn-danger");
+	$("button.loader.loading").removeClass("loading");
+}
+
+
+function showPosition(position){
+	console.log("Latitude: " + position.coords.latitude);
+	console.log("Longitude: " + position.coords.longitude);
+	if ($('.location-content').length == 1) {
+		console.log("Writing to location-content div...");
+		$('.location-content').text("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+		$('#location-spinner').hide();
+	} else {
+		console.log("No location-content div found.");
+	}
+}
+
+function handle_date_shortener()
+{
+	// handle jquery date formatter
+	var shortDateFormat = 'dd/MM/yyyy';
+    var longDateFormat  = 'dd/MM/yyyy HH:mm:ss';
+
+      $(".shortDateFormat").each(function (idx, elem) {
+          if (jQuery(elem).is(":input")) {
+              jQuery(elem).val(jQuery.format.date(jQuery(elem).val(), shortDateFormat));
+          } else {
+              jQuery(elem).text(jQuery.format.date(jQuery(elem).text(), shortDateFormat));
+          }
+      });
+      $(".longDateFormat").each(function (idx, elem) {
+          if (jQuery(elem).is(":input")) {
+              jQuery(elem).val(jQuery.format.date(jQuery(elem).val(), longDateFormat));
+          } else {
+              jQuery(elem).text(jQuery.format.date(jQuery(elem).text(), longDateFormat));
+          }
+      });
+}

@@ -15,7 +15,6 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-//= require geolocation
 //= require popper
 //= require bootstrap-sprockets
 //= require Chart.bundle

@@ -1,6 +1,10 @@
 /* GENERAL overrides */
+$body-color: #ffffff;
+
 body {
 	background-color: #6c757d;
+	color: $body-color;
+
 }
 
 /* OVERRIDES for the navbar */
@@ -33,6 +37,29 @@ body {
   height: 100vh;
 }
 
+/* SETTINGS OVERRIDES */
+.settings-light-controllers .list-group-item {
+  color: #343a40 !important;
+}
+
+.settings-light-controllers .badge {
+  font-size: 0.25rem;
+}
+
+.active {
+  background-color: $dark;
+  color: $light;
+}
+
+/* UI OVERRIDES */
+.card {
+  background-color: #343a40;
+}
+
+.modal-content {
+  color: #343a40 !important;
+}
+
  /* icons from feather icons: https://feathericons.com/ */
  .feather {
   width: 24px;
@@ -43,3 +70,52 @@ body {
   stroke-linejoin: round;
   fill: none;
 }
+
+/* OTHER UI */
+.loader {
+  width: 7em;
+}
+
+.loading {
+}
+
+.status-error {
+  background-color: $danger;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-warn {
+  background-color: $warning;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-info {
+  background-color: $primary;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-new {
+  background-color: $primary;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-success {
+  background-color: $success;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+

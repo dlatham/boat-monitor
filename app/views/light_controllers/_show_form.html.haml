@@ -1,0 +1,47 @@
+= form_with(url: "#", method: "post", id: "show_light_controller_form") do |f|
+	.form-row
+		.col
+			.list-group.light_controller_status
+	.form-row.mt-5
+		.col
+			%label{for: "remote_base_url"} Remote Base URL
+			.input-group
+				.input-group-prepend
+					%a.input-group-text.remote-base-url{ href: "javascript:void(0);", onclick: "light_controller_toggle_device('remote', false, active_controller)" }
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#server")}
+							%title Default stored on the server
+					%a.input-group-text.device-remote-base-url{ href: "javascript:void(0);", onclick: "light_controller_toggle_device('remote', true, active_controller)" }
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#hard-drive")}
+							%title Override stored on local device
+					%span.input-group-text https://
+				=f.text_field :remote_base_url, class: "form-control"
+				.input-group-append
+					%button.btn.btn-secondary.loader{ id: "remote_base_url_btn", onclick: "update_base_url(active_controller, 'remote', device_remote, $('#remote_base_url').val(), true)" } Update
+	.form-row.mt-3
+		.col
+			%label{for: "local_base_url"} Local Base URL
+			.input-group
+				.input-group-prepend
+					%a.input-group-text.local-base-url{ href: "javascript:void(0);", onclick: "light_controller_toggle_device('local', false, active_controller)" }
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#server")}
+							%title Default stored on the server
+					%a.input-group-text.device-local-base-url{ href: "javascript:void(0);", onclick: "light_controller_toggle_device('local', true, active_controller)" }
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#hard-drive")}
+							%title Override stored on local device
+					%span.input-group-text https://
+				=f.text_field :local_base_url, class: "form-control"
+				.input-group-append
+					%button.btn.btn-secondary.loader{ id: "local_base_url_btn", onclick: "update_base_url(active_controller, 'local', device_local, $('#local_base_url').val(), true)" } Update
+	.form-row.mt-5
+		.col-sm-6
+			.row 
+				.col Power On Configuration
+			.row
+				.col
+
+		.col-sm-6
+			Switch Configurations

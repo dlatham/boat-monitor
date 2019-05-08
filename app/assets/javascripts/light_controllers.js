@@ -1,0 +1,244 @@
+// Support for light_controllers model and controller
+var device_local, device_remote, active_controller, active_controller_id;
+
+// new light controller
+function convertToSlug(Text)
+{
+    return Text
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'')
+        ;
+}
+
+function lightControllerNameChange(field)
+{
+	//alert(convertToSlug(field.value));
+	$("#light_controller_slug").val(convertToSlug(field.value));
+}
+
+// show light controller
+$(document).ready(function() {
+	$("#show_light_controller_form").submit(function(){
+        return false;
+    });
+
+    $("#local_base_url").keyup(function(event) {
+    	if(device_local)
+    	{
+    		if($(this).val() == light_controllers[active_controller]["device_local_base_url"]){
+    			$("#local_base_url_btn").attr("disabled", true);
+    		} else {
+    			$("#local_base_url_btn").html("Update");
+				$("#local_base_url_btn").removeClass("btn-success btn-danger");
+    			$("#local_base_url_btn").attr("disabled", false);
+    		}
+    	} else {
+    		if($(this).val() == light_controllers[active_controller]["local_base_url"]){
+    			$("#local_base_url_btn").attr("disabled", true);
+    		} else {
+    			$("#local_base_url_btn").html("Update");
+				$("#local_base_url_btn").removeClass("btn-success btn-danger");
+    			$("#local_base_url_btn").attr("disabled", false);
+    		}
+    	}
+    });
+
+    $("#remote_base_url").keyup(function(event) {
+    	if(device_remote)
+    	{
+    		if($(this).val() == light_controllers[active_controller]["device_remote_base_url"]){
+    			$("#remote_base_url_btn").attr("disabled", true);
+    		} else {
+    			$("#remote_base_url_btn").html("Update");
+				$("#remote_base_url_btn").removeClass("btn-success btn-danger");
+    			$("#remote_base_url_btn").attr("disabled", false);
+    		}
+    	} else {
+    		if($(this).val() == light_controllers[active_controller]["remote_base_url"]){
+    			$("#remote_base_url_btn").attr("disabled", true);
+    		} else {
+    			$("#remote_base_url_btn").html("Update");
+				$("#remote_base_url_btn").removeClass("btn-success btn-danger");
+    			$("#remote_base_url_btn").attr("disabled", false);
+    		}
+    	}
+    });
+
+    console.log(light_controllers);
+});
+
+
+function show_light_controller(i, reset_toggles = true)
+{
+	active_controller = i; // used to reference the json light_controllers var
+	console.log("active_controller:" + active_controller);
+	active_controller_id = light_controllers[i]["id"]; // used to pass AJAX updates back to the server
+	$(".light_controller_name").text(light_controllers[i]["name"]);
+	// Parse all the statuses stored in "messages"
+	$(".light_controller_status").html("");
+	var l; var statuses = "";
+	if (light_controllers[i]["messages"] != null)
+	{
+		for (l = 0; l < light_controllers[i]["messages"].length; l++)
+		{
+			statuses += "<div class=\"list-group-item\"><div class=\"row\"><div class=\"col-2\"><div class=\"status-" + light_controllers[i]["messages"][l]["status"] + "\"></div> <small class=\"font-weight-lighter\">";
+			statuses += light_controllers[i]["messages"][l]["status"]
+			statuses += "</small></div><div class=\"col-6 truncate-text\">";
+			statuses += light_controllers[i]["messages"][l]["description"];
+			statuses += "</div><div class=\"col-4 text-right\"><span class=\"shortDateFormat font-weight-lighter\">";
+			statuses += light_controllers[i]["messages"][l]["created_at"];
+			statuses += "</span> <small>(";
+			statuses += $.format.prettyDate(light_controllers[i]["messages"][l]["created_at"]) + ")</small></div></div></div>";
+		}
+		$(".light_controller_status").html(statuses);
+		handle_date_shortener();
+	}
+
+	//reset the URL buttons
+	$("#local_base_url_btn").html("Update");
+	$("#local_base_url_btn").removeClass("btn-success btn-danger");
+	$("#local_base_url_btn").attr("disabled", true);
+	$("#remote_base_url_btn").attr("disabled", true);
+		
+
+	// Parse the URLs if the reset_toggles is true or not used
+	if(reset_toggles)
+	{
+		if (!light_controllers[i]["device_local_base_url"])
+		{
+			$("#local_base_url").val(light_controllers[i]["local_base_url"]);
+			$(".local-base-url").addClass("active");
+			$(".device-local-base-url").removeClass("active");
+			device_local = false;
+		} else {
+			$("#local_base_url").val(light_controllers[i]["device_local_base_url"]);
+			$(".device-local-base-url").addClass("active");
+			$(".local-base-url").removeClass("active");
+			device_local = true;
+		}
+
+		if (!light_controllers[i]["device_remote_base_url"])
+		{
+			$("#remote_base_url").val(light_controllers[i]["remote_base_url"]);
+			$(".remote-base-url").addClass("active");
+			$(".device-remote-base-url").removeClass("active");
+			device_remote = false;
+		} else {
+			$("#remote_base_url").val(light_controllers[i]["device_remote_base_url"]);
+			$(".device-remote-base-url").addClass("active");
+			$(".remote-base-url").removeClass("active");
+			device_remote = true;
+		}
+	}
+
+}
+
+function light_controller_toggle_device(base, device, id)
+{
+	var formField = "#" + base + "_base_url";
+	var cssActive, cssInactive;
+	
+	if(device) // the mode being select t/f
+	{
+		cssActive = ".device-" + base + "-base-url";
+		cssInactive = "." + base + "-base-url";
+		if(base == "local"){
+			device_local = device;
+			$(formField).val(light_controllers[id]["device_local_base_url"]);
+		} else {
+			device_remote = device;
+			$(formField).val(light_controllers[id]["device_remote_base_url"]);
+		}
+	} else {
+		cssInactive = ".device-" + base + "-base-url";
+		cssActive = "." + base + "-base-url";
+		if(base == "local"){
+			device_local = device;
+			$(formField).val(light_controllers[id]["local_base_url"]);
+		} else {
+			device_remote = device;
+			$(formField).val(light_controllers[id]["remote_base_url"]);
+		}
+	}
+	$(cssActive).addClass("active");
+	$(cssInactive).removeClass("active");
+	return false;
+}
+
+function update_base_url(id, base, device, url, ssl)
+{
+	// base = remote || local, device = boolean, ssl = boolean (not currently supported in the data model)
+	var getUrl = window.location;
+	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/light_controllers/" + light_controllers[id]["id"] + ".json";
+	var data = { "base" : base, "device" : device, "url" : url, "ssl" : ssl, "update_type" : "base_url" };
+	var varSelector;
+	if(device)
+	{
+		varSelector = "device_" + base + "_base_url";
+	} else {
+		varSelector = base + "_base_url";
+	}
+	//var post_struct = { "post_url" : baseUrl, "device" : device, "url" : url };
+	console.log("Starting request with params: " + JSON.stringify(data));
+	//alert(JSON.stringify(data));
+	var request = $.ajax({
+		url: baseUrl,
+		method: "PUT",
+		data: data,
+		success: function() {
+			// Update the javascript data blob and refresh the main div
+			light_controllers[id][varSelector] = url;
+			show_light_controller(id, false);
+			update_main_div();
+			handle_success();
+			$("#local_base_url_btn").attr("disabled", true);
+			$("#remote_base_url_btn").attr("disabled", true);
+		},
+		error: function() {
+			handle_failure();
+		}
+	});
+}
+
+function update_main_div()
+{
+	$('.remote-base-text').each(function(index) {
+    	if(light_controllers[index]["device_remote_base_url"]){
+    		$(this).text(light_controllers[index]["device_remote_base_url"]);
+    	} else {
+    		$(this).text(light_controllers[index]["remote_base_url"]);
+    	}
+    	
+	});
+
+	$('.local-base-text').each(function(index) {
+    	if(light_controllers[index]["device_local_base_url"]){
+    		$(this).text(light_controllers[index]["device_local_base_url"]);
+    	} else {
+    		$(this).text(light_controllers[index]["local_base_url"]);
+    	}
+    	
+	});
+
+	$('.remote-base-badge').each(function(index) {
+		if(light_controllers[index]["device_remote_base_url"]){
+			$(this).removeClass('badge-dark');
+			$(this).addClass('badge-light');
+		} else {
+			$(this).removeClass('badge-light');
+			$(this).addClass('badge-dark');
+		}
+	});
+
+	$('.local-base-badge').each(function(index) {
+    	if(light_controllers[index]["device_local_base_url"]){
+    		$(this).removeClass('badge-dark');
+    		$(this).addClass('badge-light')
+    	} else {
+    		$(this).removeClass('badge-light');
+    		$(this).addClass('badge-dark')
+    	}
+    });
+
+}

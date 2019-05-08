@@ -1,0 +1,69 @@
+= render "modals_light_controllers"
+.container
+	.row.mt-5
+		.col-12
+			%h2 Device Settings
+			%p Most settings are specific to the device you are currently using. Ensure that your device has been stored with a name that you recognize.
+			= form_tag({controller: "settings", action: "set_device_id", method: "post"}, {}) do
+				.input-group.input-group-lg
+					- if @registered
+						= text_field_tag :device_id, @device, class: "form-control"
+						= submit_tag "Update", class: "btn btn-light"
+					- else
+						= text_field_tag :device_id, "", class: "form-control is-invalid", placeholder: "Name of device"
+						= submit_tag "Save", class: "btn btn-danger"
+	.row.mt-5
+		.col-12
+			%h2 Lighting Settings
+			%p These settings impact the lighting controls and attempts have been made to run most of this code on the client to enable control with spotty connections.
+			
+			.row.mt-5.align-middle
+				.col
+					%h5.mb-0 Light Controllers
+				.col-auto.text-right
+					%button{ type: "button", class: "btn btn-secondary", "data-target" => "#new_light_controller", "data-toggle" => "modal" }
+						%svg.feather
+							%use{"xlink:href" => image_path("feather-sprite.svg#plus")}
+							%title New light controller
+			%p Controllers are registered globally but the local and remote base URLs could be overridden per device.
+			-if @light_controllers.length != 0
+				.list-group.settings-light-controllers
+					- @light_controllers.each_with_index do |l, i|
+						%a.list-group-item.list-group-item-action{href: "#", onclick: "show_light_controller(#{i})", "data-toggle" => "modal", "data-target" => "#show_light_controller"}
+							.row
+								.col-sm-auto
+									%svg.feather
+										%use{"xlink:href" => image_path("feather-sprite.svg#sun")}
+										%title Light controller
+								.col-sm-3.text-truncate
+									= l[:name]
+								.col-sm-2
+									%div{class: l[:status][:indicator]}
+									%span.font-weight-lighter.small= l[:status][:message]
+								.col-sm-3.text-truncate
+									-if l[:device_remote_base_url].nil?
+										%span.badge.badge-dark.small.font-weight-lighter.remote-base-badge REMOTE
+									-else 
+										%span.badge.badge-light.small.font-weight-lighter.remote-base-badge REMOTE
+									%span.small.remote-base-text= l[:device_remote_base_url].nil? ? l[:remote_base_url] : l[:device_remote_base_url]
+								.col-sm-3.text-truncate
+									-if l[:device_local_base_url].nil?
+										%span.badge.badge-dark.small.font-weight-lighter.local-base-badge LOCAL
+									-else
+										%span.badge.badge-light.small.font-weight-lighter.local-base-badge LOCAL
+									%span.small.local-base-text= l[:device_local_base_url].nil? ? l[:local_base_url] : l[:device_local_base_url]
+								
+			- else
+				.card
+					.card-body
+						%h5.card-title No light controllers
+						%p.card-text You'll need to have an active light controller in order to enable lighting functionality.
+						%button{ type: "button", class: "btn btn-primary", "data-target" => "#new_light_controller", "data-toggle" => "modal" } Add a controller
+
+	.row.mt-5
+
+= javascript_tag "var light_controllers = #{@light_controllers.to_json}"
+
+
+
+			

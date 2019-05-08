@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   devise_for :users
   resources :probes
   resources :bilges
+  resources :light_controllers
   root 'dashboard#main'
+  resources :settings, only: [:index] do
+  	
+  end
+  post 'settings/set_device_id', to: 'settings#set_device_id'
+  post 'settings/store_local_config', to: 'settings#store_local_config'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

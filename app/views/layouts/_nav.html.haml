@@ -10,7 +10,7 @@
 			%svg.feather
 				%use{"xlink:href" => image_path("feather-sprite.svg#chevrons-down")}
 		.dropdown-menu.dropdown-menu-right{id: "settingsCollapse"}
-			= link_to "Settings", "/", {class: "dropdown-item"}
+			= link_to "Settings", settings_path, {class: "dropdown-item"}
 			= link_to "Sensors", "/probes", {class: "dropdown-item"}
 			- if user_signed_in?
 				= link_to('Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item")

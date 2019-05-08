@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  slug: MyString
+  local_base_url: MyString
+  remote_base_url: MyString
+  power_config: 
+  switch_config: 
+  status: 
+
+two:
+  name: MyString
+  slug: MyString
+  local_base_url: MyString
+  remote_base_url: MyString
+  power_config: 
+  switch_config: 
+  status: 
