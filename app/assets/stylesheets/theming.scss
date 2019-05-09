@@ -71,6 +71,55 @@ body {
   fill: none;
 }
 
+/* LIGHT CONTROLLER UI */
+.color-picker {
+    width:          25px;
+    height:         25px;
+    padding:        1px;
+    border:         1px solid #ccc;
+    display:        block;
+    position:       relative;
+    z-index:        0;
+    background-color: #EFEFEF;
+    -webkit-border-radius: 27px;
+    -moz-border-radius: 27px;
+    border-radius: 27px;
+    cursor: pointer;
+}
+
+.color-picker-modal {
+    background:     #EFEFEF;
+    height:         150px;
+    width:          150px;
+    position:       absolute;
+    cursor:         crosshair;
+    float:          left;
+    display:        none;
+    border:         1px solid #ccc;
+    z-index:        10;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+    border-radius: 150px;
+}
+
+.col-light {
+  border-top: 1px solid $secondary;
+  border-bottom: 1px solid $secondary;
+  border-right: 1px solid $secondary;
+  padding: 2px;
+}
+
+.col-light:first-of-type {
+  border-left: 1px solid $secondary;
+}
+
+.light {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 25%;
+}
+
 /* OTHER UI */
 .loader {
   width: 7em;

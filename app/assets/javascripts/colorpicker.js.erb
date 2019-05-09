@@ -1,0 +1,57 @@
+// Color picker code to be used throughout the application
+var color_picker_selector, color_picker_active = false;
+
+$(document).ready(function() {
+
+	// Event listeners
+	$(".color-picker").click(function() {
+		color_picker_selector = $(this);
+		$position = $(this).position();
+		$parent = $(this).parent();
+		console.log("Request made from the parent [" + $parent.attr("id") + "] at coordinates [Left: " + $position.left + ", Top: " + $position.top + "]");
+
+		$left = $position.left - 63;
+		$top = $position.top - 63;
+		$position = { top: $top, left: $left };
+		console.log("Rendering div at [Left: " + $position.left + ", Top: " + $position.top + "]");
+
+		$parent.prepend("<div class='color-picker-modal'><canvas id='color-picker-canvas' width='150', height='150'></canvas></div>");
+		$canvas = $('#color-picker-canvas');
+		ctx = $canvas[0].getContext("2d");
+		img = new Image();
+		img.src = "<%= asset_path('text-color.png') %>";
+		ctx.drawImage(img, 0, 0);
+
+		$(".color-picker-modal").css($position);
+		$(this).css("z-index", 11);
+		$(".color-picker-modal").fadeIn();
+
+		$canvas[0].addEventListener("click",function(event){
+			eventLocation = getCursorPosition($canvas[0], event);
+			context = this.getContext('2d');
+    		pixelData = context.getImageData(eventLocation.x, eventLocation.y, 1, 1).data;
+    		console.log("R=" + pixelData[0] + " G=" + pixelData[1] + " B=" + pixelData[2]);
+    		$(".color-picker-modal").fadeIn(function() {
+    			$(".color-picker-modal").remove();
+    		});
+    		
+    		color_picker_selector.css("z-index", 0);
+    		color_picker_selector.css("background-color", "rgb(" + pixelData[0] + "," + pixelData[1] + "," + pixelData[2] + ")");
+		},false);
+
+	});
+
+
+});
+
+
+function getCursorPosition(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+    console.log("x: " + x + " y: " + y);
+    return {
+    	x: x,
+    	y: y,
+    }
+}

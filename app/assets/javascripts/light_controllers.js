@@ -23,6 +23,7 @@ $(document).ready(function() {
         return false;
     });
 
+
     $("#local_base_url").keyup(function(event) {
     	if(device_local)
     	{

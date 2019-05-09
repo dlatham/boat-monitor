@@ -35,7 +35,7 @@ class LightControllersController < ApplicationController
 	private
 
 	def light_controller_params
-      params.require(:light_controller).permit(:name, :slug, :local_base_url, :remote_base_url, :username, :password, :status)
+      params.require(:light_controller).permit(:name, :slug, :total_lights, :local_base_url, :remote_base_url, :username, :password, :status)
     end
 
     def update_device_urls(id, base, url, ssl)

@@ -38,10 +38,7 @@
 					%button.btn.btn-secondary.loader{ id: "local_base_url_btn", onclick: "update_base_url(active_controller, 'local', device_local, $('#local_base_url').val(), true)" } Update
 	.form-row.mt-5
 		.col-sm-6
-			.row 
-				.col Power On Configuration
-			.row
-				.col
-
+			.row{ id: "light-config-on" }
+				-(0..16).each do |i| 
+					%a.color-picker{ id: "power-on-config-#{i}" }
 		.col-sm-6
-			Switch Configurations

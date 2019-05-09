@@ -20,6 +20,7 @@ class SettingsController < ApplicationController
 				id: l.id, 
 				name: l.name, 
 				remote_base_url: l.remote_base_url, 
+				total_lights: l.total_lights,
 				device_remote_base_url: (urls["remote_base_url"] if !urls.nil?).presence, 
 				local_base_url: l.local_base_url, 
 				device_local_base_url: (urls["local_base_url"] if !urls.nil?).presence, 
