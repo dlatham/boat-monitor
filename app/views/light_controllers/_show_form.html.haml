@@ -39,6 +39,7 @@
 	.form-row.mt-5
 		.col-sm-6
 			.row{ id: "light-config-on" }
-				-(0..16).each do |i| 
-					%a.color-picker{ id: "power-on-config-#{i}" }
+				.col
+					-(0..16).each do |i|
+						%a.color-picker.float-left{ id: "power-on-config-#{i}" }
 		.col-sm-6

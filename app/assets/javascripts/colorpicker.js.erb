@@ -5,6 +5,28 @@ $(document).ready(function() {
 
 	// Event listeners
 	$(".color-picker").click(function() {
+		// if same element, hide the picker
+		console.log(color_picker_selector);
+		console.log($(this));
+		
+		// confirm no other pickers are active
+		if(color_picker_selector)
+		{
+			if(color_picker_selector[0] == $(this)[0])
+			{
+				$(".color-picker-modal").fadeOut(function() {
+	    			$(".color-picker-modal").remove();
+	    		});
+	    		color_picker_selector.css("z-index", 0);
+	    		color_picker_selector = "";
+	    		return;
+			} else {
+				color_picker_selector.css("z-index", 0);
+				$(".color-picker-modal").remove();
+			}
+		}
+		
+
 		color_picker_selector = $(this);
 		$position = $(this).position();
 		$parent = $(this).parent();
@@ -31,11 +53,12 @@ $(document).ready(function() {
 			context = this.getContext('2d');
     		pixelData = context.getImageData(eventLocation.x, eventLocation.y, 1, 1).data;
     		console.log("R=" + pixelData[0] + " G=" + pixelData[1] + " B=" + pixelData[2]);
-    		$(".color-picker-modal").fadeIn(function() {
+    		$(".color-picker-modal").fadeOut(function() {
     			$(".color-picker-modal").remove();
     		});
     		
     		color_picker_selector.css("z-index", 0);
+    		console.log("Z-index for color picker selector [" + color_picker_selector + "] = " + color_picker_selector.css("z-index"));
     		color_picker_selector.css("background-color", "rgb(" + pixelData[0] + "," + pixelData[1] + "," + pixelData[2] + ")");
 		},false);
 

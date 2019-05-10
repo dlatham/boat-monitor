@@ -32,6 +32,14 @@ class LightControllersController < ApplicationController
 
 	end
 
+	def get_controller_config
+		# Generally called from AJAX to get the json that powers the lighting UI
+		@light_controller = LightController.find(params[:light_controller_id])
+		if @light_controller
+			render :json => @light_controller.power_config
+		end
+	end
+
 	private
 
 	def light_controller_params

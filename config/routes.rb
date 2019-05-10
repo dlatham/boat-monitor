@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   devise_for :users
   resources :probes
   resources :bilges
-  resources :light_controllers
+  resources :light_controllers do
+    get 'config', to: 'light_controllers#get_controller_config'    
+  end
   root 'dashboard#main'
   resources :settings, only: [:index] do
   	
