@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_034343) do
+ActiveRecord::Schema.define(version: 2019_05_11_173505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_034343) do
     t.string "username"
     t.string "password"
     t.integer "total_lights"
+    t.float "version"
     t.index ["name", "slug"], name: "index_light_controllers_on_name_and_slug", unique: true
   end
 

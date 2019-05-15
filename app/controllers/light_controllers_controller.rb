@@ -24,6 +24,16 @@ class LightControllersController < ApplicationController
 				else
 					response = update_server_urls(params[:id], params[:base], params[:url], params[:ssl])
 				end
+			when "power_config"
+				@light_controller = LightController.find(params[:id])
+				#data = JSON.parse(params[:switch_config])
+				@light_controller.power_config = params[:power_config].to_json
+				@light_controller.save!
+			when "switch_config"
+				@light_controller = LightController.find(params[:id])
+				data = JSON.parse(params[:switch_config])
+				@light_controller.switch_config = data.to_json
+				@light_controller.save!
 			end
 		end
 

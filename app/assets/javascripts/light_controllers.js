@@ -1,5 +1,5 @@
 // Support for light_controllers model and controller
-var device_local, device_remote, active_controller, active_controller_id;
+var device_local, device_remote, active_controller, active_controller_id, power_on_config;
 
 // new light controller
 function convertToSlug(Text)
@@ -30,7 +30,7 @@ $(document).ready(function() {
     		if($(this).val() == light_controllers[active_controller]["device_local_base_url"]){
     			$("#local_base_url_btn").attr("disabled", true);
     		} else {
-    			$("#local_base_url_btn").html("Update");
+    			$("#local_base_url_btn").html("Save");
 				$("#local_base_url_btn").removeClass("btn-success btn-danger");
     			$("#local_base_url_btn").attr("disabled", false);
     		}
@@ -38,7 +38,7 @@ $(document).ready(function() {
     		if($(this).val() == light_controllers[active_controller]["local_base_url"]){
     			$("#local_base_url_btn").attr("disabled", true);
     		} else {
-    			$("#local_base_url_btn").html("Update");
+    			$("#local_base_url_btn").html("Save");
 				$("#local_base_url_btn").removeClass("btn-success btn-danger");
     			$("#local_base_url_btn").attr("disabled", false);
     		}
@@ -51,7 +51,7 @@ $(document).ready(function() {
     		if($(this).val() == light_controllers[active_controller]["device_remote_base_url"]){
     			$("#remote_base_url_btn").attr("disabled", true);
     		} else {
-    			$("#remote_base_url_btn").html("Update");
+    			$("#remote_base_url_btn").html("Save");
 				$("#remote_base_url_btn").removeClass("btn-success btn-danger");
     			$("#remote_base_url_btn").attr("disabled", false);
     		}
@@ -59,11 +59,19 @@ $(document).ready(function() {
     		if($(this).val() == light_controllers[active_controller]["remote_base_url"]){
     			$("#remote_base_url_btn").attr("disabled", true);
     		} else {
-    			$("#remote_base_url_btn").html("Update");
+    			$("#remote_base_url_btn").html("Save");
 				$("#remote_base_url_btn").removeClass("btn-success btn-danger");
     			$("#remote_base_url_btn").attr("disabled", false);
     		}
     	}
+    });
+
+    $("#power_config_save").click(function() {
+    	save_light_config("power_config", active_controller_id, light_controllers[active_controller]["power_config"]);
+    });
+
+    $("#switch_config_save").click(function() {
+    	save_light_config("switch_config", active_controller_id, light_controllers[active_controller]["switch_config"]);
     });
 
 });
@@ -96,7 +104,7 @@ function show_light_controller(i, reset_toggles = true)
 	}
 
 	//reset the URL buttons
-	$("#local_base_url_btn").html("Update");
+	$("#local_base_url_btn").html("Save");
 	$("#local_base_url_btn").removeClass("btn-success btn-danger");
 	$("#local_base_url_btn").attr("disabled", true);
 	$("#remote_base_url_btn").attr("disabled", true);
@@ -131,6 +139,10 @@ function show_light_controller(i, reset_toggles = true)
 			device_remote = true;
 		}
 	}
+
+	// Set the light config UI
+	initialize_power_config(active_controller);
+	initialize_switch_config(active_controller);
 
 }
 
@@ -241,4 +253,90 @@ function update_main_div()
     	}
     });
 
+}
+
+
+// THESE FUNCTIONS ARE ONLY USED ON THE SETTNGS VIEW - SEE IF THIS CAN BE REPUPOSED FOR THE OTHER VIEWS
+function initialize_power_config(id)
+{
+	//power_on_config = light_controllers[id]["power_config"];
+	//console.log(power_on_config);
+	$("#light-config-power-on").html("");
+	for(i=0; i<light_controllers[id]["total_lights"]; i++)
+	{
+		if(light_controllers[id]["power_config"] && light_controllers[id]["power_config"]["data"][i])
+		{
+			$("#light-config-power-on").append("<a class='color-picker float-left' id='power-on-config-" + i + "' data-controller='" + id + "' data-selector='power_config' data-id='" + i + "' style='background-color: rgb(" + light_controllers[id]["power_config"]["data"][i]["r"] + "," + light_controllers[id]["power_config"]["data"][i]["g"] + "," + light_controllers[id]["power_config"]["data"][i]["b"] + ")'></a>");
+		} else {
+			$("#light-config-power-on").append("<a class='color-picker float-left' id='power-on-config-" + i + "' data-controller='" + id + "' data-selector='power_config' data-id='" + i + "'></a>");
+		}
+			
+	}
+}
+
+function initialize_switch_config(id)
+{
+	$("#light-config-switch").html("");
+	if(light_controllers[id]["switch_config"])
+	{
+		for(j=0; j<light_controllers[id]["switch_config"]["data"].length; j++) // Loop through each config in the data array
+		{
+			var html = "<div class='row mb-3'><div class='col'>";
+			for(i=0; i<light_controllers[id]["total_lights"]; i++)
+			{
+				if(light_controllers[id]["switch_config"]["data"][j][i])
+				{
+					html += "<a class='color-picker float-left' id='switch-config-" + j + "-" + i + "' data-controller='" + id + "' data-selector='switch_config' data-id='" + i + "' data-switch='" + j + "' style='background-color: rgb(" + light_controllers[id]["switch_config"]["data"][j][i]["r"] + "," + light_controllers[id]["switch_config"]["data"][j][i]["g"] + "," + light_controllers[id]["switch_config"]["data"][j][i]["b"] + ")'></a>";
+				} else {
+					html += "<a class='color-picker float-left' id='switch-config-" + j + "-" + i + "' data-controller='" + id + "' data-selector='switch_config' data-id='" + i + "' data-switch='" + j + "'></a>";
+				}	
+			}
+			html += "</div></div>";
+			$("#light-config-switch").append(html);
+		}
+	}
+}
+
+function save_light_config(type, id, config)
+{
+	// Take the JSON to pass to the server and update the power_config field
+	var getUrl = window.location;
+	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/light_controllers/" + id + ".json";
+	if(type == "power_config"){
+		var data = { update_type: "power_config", power_config: config }
+		$("#power_config_save").attr("disabled", true);
+	} else {
+		var data = { update_type: "switch_config", switch_config: JSON.stringify(config) }
+		$("#switch_config_save").attr("disabled", true);
+	}
+	console.log("Starting request to [" + baseUrl + "] with data [" + JSON.stringify(data) + "]");
+	var request = $.ajax({
+		url: baseUrl,
+		method: "PUT",
+		data: data,
+		success: function() {
+			handle_success();
+		},
+		error: function() {
+			handle_failure();
+		}
+	});
+
+}
+
+function new_switch_config()
+{
+	var new_data = [];
+	for(i=0; i<light_controllers[active_controller]["total_lights"]; i++){
+		new_data.push({r: 0, g: 0, b: 0});
+	}
+	if(light_controllers[active_controller]["switch_config"]){
+		light_controllers[active_controller]["switch_config"]["data"].push(new_data);
+		light_controllers[active_controller]["switch_config"]["from"] = current_device;
+		light_controllers[active_controller]["switch_config"]["sent"] = "";
+	} else {
+		light_controllers[active_controller]["switch_config"] = { from: current_device, sent: "", data: [new_data] };
+	}
+	initialize_switch_config(active_controller);
+	$("#switch_config_save").attr("disabled", false);
 }

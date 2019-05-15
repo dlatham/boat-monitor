@@ -2,12 +2,11 @@
 var color_picker_selector, color_picker_active = false;
 
 $(document).ready(function() {
+	img = new Image();
+	img.src = "<%= asset_path('text-color.png') %>";
 
 	// Event listeners
-	$(".color-picker").click(function() {
-		// if same element, hide the picker
-		console.log(color_picker_selector);
-		console.log($(this));
+	$(document).on('click', '.color-picker', function() {
 		
 		// confirm no other pickers are active
 		if(color_picker_selector)
@@ -40,8 +39,6 @@ $(document).ready(function() {
 		$parent.prepend("<div class='color-picker-modal'><canvas id='color-picker-canvas' width='150', height='150'></canvas></div>");
 		$canvas = $('#color-picker-canvas');
 		ctx = $canvas[0].getContext("2d");
-		img = new Image();
-		img.src = "<%= asset_path('text-color.png') %>";
 		ctx.drawImage(img, 0, 0);
 
 		$(".color-picker-modal").css($position);
@@ -59,7 +56,7 @@ $(document).ready(function() {
     		
     		color_picker_selector.css("z-index", 0);
     		console.log("Z-index for color picker selector [" + color_picker_selector + "] = " + color_picker_selector.css("z-index"));
-    		color_picker_selector.css("background-color", "rgb(" + pixelData[0] + "," + pixelData[1] + "," + pixelData[2] + ")");
+    		update_color(color_picker_selector, pixelData);
 		},false);
 
 	});
@@ -77,4 +74,48 @@ function getCursorPosition(canvas, event) {
     	x: x,
     	y: y,
     }
+}
+
+function update_color(element, color)
+{
+	element.css("background-color", "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")");	//Update the color in the element as well as in the JSON
+	// Parse the element name into the data needed to target to light_controllers var
+	var data = element.data();
+	if(data["selector"] == "switch_config") // Switch_config is an array of multiple configs
+	{
+		light_controllers[data["controller"]][data["selector"]]["data"][data["switch"]][data["id"]] = { r: color[0], g: color[1], b: color[2] };
+	} else {
+		if(light_controllers[data["controller"]][data["selector"]])
+		{
+			light_controllers[data["controller"]][data["selector"]]["data"][data["id"]] = { r: color[0], g: color[1], b: color[2] };
+		} else {
+			// If there was no existing configuration then we should set everything to black and then select the color--------------FIX THIS PROBLEM.....
+			var new_data = [];
+			light_controllers[data["controller"]][data["selector"]] = { from: current_device, data: [], sent: "" };
+			for(i=0; i<light_controllers[data["controller"]]["total_lights"]; i++)
+			{
+				new_data.push({ r: 0, g: 0, b: 0 });
+			}
+			light_controllers[data["controller"]][data["selector"]]["data"] = new_data;
+			light_controllers[data["controller"]][data["selector"]]["data"][data["id"]] = { r: color[0], g: color[1], b: color[2] };
+		}
+		
+	}
+	// Handle updating the appropriate system (the lights or the light controller config)
+	//var k = "#" + data["selector"] + "_save";
+	$("#" + data["selector"] + "_save").attr("disabled", false);
+	
+}
+
+function update_all_color(element_prefix, color)
+{
+	//alert("Update all lights!");
+	console.log("Update all lights in [" + element_prefix + "] to the color [" + JSON.stringify(color) + "]");
+	for(i=0; i<light_controllers[active_controller]["total_lights"]; i++)
+	{
+		var selector = "#" + element_prefix + String(i);
+		update_color($(selector), color);
+		
+	}
+
 }

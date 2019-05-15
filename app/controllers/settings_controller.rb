@@ -18,14 +18,17 @@ class SettingsController < ApplicationController
 			puts urls
 			@light_controllers << {
 				id: l.id, 
-				name: l.name, 
+				name: l.name,
+				version: l.version, 
 				remote_base_url: l.remote_base_url, 
 				total_lights: l.total_lights,
 				device_remote_base_url: (urls["remote_base_url"] if !urls.nil?).presence, 
 				local_base_url: l.local_base_url, 
 				device_local_base_url: (urls["local_base_url"] if !urls.nil?).presence, 
 				status: l.parse_status, 
-				messages: (JSON.parse(l.status) if !l.status.nil?)
+				messages: (JSON.parse(l.status) if !l.status.nil?),
+				power_config: (JSON.parse(l.power_config) if !l.power_config.nil?),
+				switch_config: (JSON.parse(l.switch_config) if !l.switch_config.nil?)
 			}
 		end
 		@light_controller = LightController.new

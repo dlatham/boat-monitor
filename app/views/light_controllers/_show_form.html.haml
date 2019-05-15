@@ -18,7 +18,7 @@
 					%span.input-group-text https://
 				=f.text_field :remote_base_url, class: "form-control"
 				.input-group-append
-					%button.btn.btn-secondary.loader{ id: "remote_base_url_btn", onclick: "update_base_url(active_controller, 'remote', device_remote, $('#remote_base_url').val(), true)" } Update
+					%button.btn.btn-secondary.loader{ id: "remote_base_url_btn", onclick: "update_base_url(active_controller, 'remote', device_remote, $('#remote_base_url').val(), true)" } Save
 	.form-row.mt-3
 		.col
 			%label{for: "local_base_url"} Local Base URL
@@ -35,11 +35,33 @@
 					%span.input-group-text https://
 				=f.text_field :local_base_url, class: "form-control"
 				.input-group-append
-					%button.btn.btn-secondary.loader{ id: "local_base_url_btn", onclick: "update_base_url(active_controller, 'local', device_local, $('#local_base_url').val(), true)" } Update
+					%button.btn.btn-secondary.loader{ id: "local_base_url_btn", onclick: "update_base_url(active_controller, 'local', device_local, $('#local_base_url').val(), true)" } Save
 	.form-row.mt-5
-		.col-sm-6
-			.row{ id: "light-config-on" }
-				.col
-					-(0..16).each do |i|
-						%a.color-picker.float-left{ id: "power-on-config-#{i}" }
-		.col-sm-6
+		.col Power On Configuration
+	.form-row.mt-3
+		.col-10
+			.row
+				.col{ id: "light-config-power-on" }
+					.progress
+						.progress-bar.progress-bar-striped.progress-bar-animated.bg-dark{style: "width:100%"}
+		.col-sm-2.mt-3.mt-sm-0
+			.btn-group{ role: "group" }
+				.btn-group{ role: "group" }
+					%button.btn.btn-secondary.dropdown-toggle{ id:"dropdownMenuButton", "data-toggle" => "dropdown", "aria-haspopup" => "true", "aria-expanded" => "false" } Edit
+					.dropdown-menu{ "aria-labelledby" => "dropdownMenuButton" }
+						%a.dropdown-item{ href: "javascript:void(0);", onclick: "update_all_color(\"power-on-config-\", [255, 255, 255] )" } All White
+						%a.dropdown-item{ href: "javascript:void(0);", onclick: "update_all_color(\"power-on-config-\", [255, 241, 224] )" } All Off-White
+						%a.dropdown-item{ href: "javascript:void(0);", onclick: "update_all_color(\"power-on-config-\", [0, 0, 0] )" } Off
+				%button.btn.btn-secondary.loader{ disabled: true, id: "power_config_save" } Save
+	.form-row.mt-5
+		.col Switch Configurations
+	.form-row.mt-3
+		.col-10
+			.row
+				.col{ id: "light-config-switch" }
+					.progress
+						.progress-bar.progress-bar-striped.progress-bar-animated.bg-dark{style: "width:100%"}
+		.col-sm-2.mt-3.mt-sm-0
+			.btn-group{ role: "group" }
+				%button.btn.btn-secondary{ id: "switch_config_new", onclick: "new_switch_config()" } New
+				%button.btn.btn-secondary.loader{ disabled: true, id: "switch_config_save" } Save

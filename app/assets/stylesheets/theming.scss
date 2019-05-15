@@ -102,8 +102,23 @@ body {
     border-radius: 150px;
 }
 
+.color-picker-edit {
+    width:          25px;
+    height:         25px;
+    padding:        1px;
+    border:         1px solid #ccc;
+    display:        block;
+    position:       relative;
+    z-index:        0;
+    background-color: #EFEFEF;
+    -webkit-border-radius: 27px;
+    -moz-border-radius: 27px;
+    border-radius: 27px;
+    cursor: pointer;
+}
+
 canvas {
-  z-index: 200;
+  z-index: 200; 
 }
 
 .col-light {
@@ -126,7 +141,7 @@ canvas {
 
 /* OTHER UI */
 .loader {
-  width: 7em;
+  width: 4em;
 }
 
 .loading {

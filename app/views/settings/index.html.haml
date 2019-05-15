@@ -62,7 +62,7 @@
 
 	.row.mt-5
 
-= javascript_tag "var light_controllers = #{@light_controllers.to_json}"
+= javascript_tag "var current_device = \"#{@device}\"; var light_controllers = #{@light_controllers.to_json}"
 
 
 
