@@ -63,6 +63,32 @@ class HeartbeatsController < ApplicationController
     end
   end
 
+  def destroy_before
+    # Destroy all records before a specific date
+    #TODO move this to a background job and do it in batches of less than 5000
+    @date = params[:date].to_date
+    puts @date.to_s
+    begin
+      @destruction = Heartbeat.where('created_at <= ?', @date)
+      @destruction.destroy_all
+    rescue
+      Rails.logger.error "Something went wrong when trying to do a mass heartbeat destroy_all command"
+    else
+      @count = Heartbeat.all.count
+    end
+
+    render json: { status: "ok", remaining: @count }.to_json
+  end
+
+
+  def get_count
+    #Gets a count of Heartbeat records prior to a given date enabling mass deletion
+    @date = params[:date].to_date
+    puts @date.to_s
+    @count = Heartbeat.where('created_at <= ?', @date).count
+    render json: @count.to_json
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_heartbeat

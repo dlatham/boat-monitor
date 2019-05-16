@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'heartbeats/get_count', to: 'heartbeats#get_count'
+  post 'heartbeats/destroy_before', to: 'heartbeats#destroy_before'
   resources :heartbeats
   get 'jobs/index'
   get 'jobs/view'

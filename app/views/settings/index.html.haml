@@ -64,27 +64,32 @@
 		.col-12
 			%h2 Database Storage
 			%p The main database is currently capped at 10,000 rows and heartbeats from connected devices typically take up the majority of this storage.
-			.progress{ style: "height: 30px" }
+			.progress{ style: "height: 36px" }
 				.progress-bar{ role: "progressbar", style: "width: #{(@total_heartbeats.to_f/10000)*100}%" }= @total_heartbeats 
 				.progress-bar.bg-info{ role: "progressbar", style: "width: #{(@total_bilges.to_f/10000)*100}%" }= @total_bilges
-			%p= "Total records = #{@total_heartbeats}"
+			%p.small This total only accounts for the records that are automated from sensor data.
 	.row.mt-3
 		.col-sm
-			.card
+			.card.mb-3
 				.card-body
 					%h5.card-title Heartbeat Records
 					%p.card-text These records are created when a device sends it's heartbeat to the server, usually once every 10 minutes.
-					%h1.display-1.text-center= @total_heartbeats
+					%h1.display-1.text-center{ id: "total_heartbeats" }= number_with_delimiter(@total_heartbeats, delimiter: ",")
 					.card-footer
-						%button.btn.btn-warning.w-100 Destroy old records
+						.btn-group.w-100{ role: "group" }
+							%button.btn.btn-warning.w-25.datepicker{ type: "button", id: "datepicker_heartbeats_destroy" }
+								%svg.feather
+									%use{"xlink:href" => image_path("feather-sprite.svg#calendar")}
+									%title Select date limit for record deletion
+							%button.btn.btn-warning.w-75.loader{ type: "button", disabled: true, id: "heartbeats_destroy" } Destroy records
 		.col-sm
-			.card
+			.card.mb-3
 				.card-body
 					%h5.card-title Bilge Records
 					%p.card-text These records are created whenever the bilge pump runs and reports it's duration. Created on demand.
 					%h1.display-1.text-center= @total_bilges
 					.card-footer
-						%button.btn.btn-warning.w-100 Destroy old records
+						%button.btn.btn-warning.w-100{ disabled: true } Destroy records
 
 = javascript_tag "var current_device = \"#{@device}\"; var light_controllers = #{@light_controllers.to_json}"
 

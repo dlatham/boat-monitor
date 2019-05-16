@@ -1,3 +1,6 @@
+//Top level variables used throughout the application
+var selected_date;
+
 $( document ).ready(function() {
 	// Handler loader button clicks
 	$("button.loader").click(function() {
@@ -20,6 +23,14 @@ $( document ).ready(function() {
 	    }
 
 	}
+
+	$('.datepicker').datepicker({
+		autoclose: true
+	}).on('changeDate', function(ev){
+		//alert(ev.date.valueOf());
+		selected_date = ev.date;
+		$('.datepicker').datepicker('hide');
+	});
 
 	handle_date_shortener();
 
