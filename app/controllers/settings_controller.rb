@@ -33,6 +33,9 @@ class SettingsController < ApplicationController
 		end
 		@light_controller = LightController.new
 
+		@total_heartbeats = Heartbeat.count(:id)
+		@total_bilges = Bilge.count(:id)
+
 
 	end
 
