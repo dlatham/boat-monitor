@@ -91,6 +91,7 @@
 					.card-footer
 						%button.btn.btn-warning.w-100{ disabled: true } Destroy records
 
+= local?
 = javascript_tag "var current_device = \"#{@device}\"; var light_controllers = #{@light_controllers.to_json}"
 
 

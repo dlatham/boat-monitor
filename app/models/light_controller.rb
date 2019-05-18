@@ -33,4 +33,13 @@ class LightController < ApplicationRecord
 		end
 		return parsed
 	end
+
+	def get_status
+		# Call the light controller and have it return it's current status
+
+	end
+
+	private
+
+	
 end

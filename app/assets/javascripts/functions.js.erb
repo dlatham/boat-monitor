@@ -2,6 +2,20 @@
 var selected_date;
 
 $( document ).ready(function() {
+	//Handle requests for device location from the menu
+	$("#local_device_select").click(function(){
+		if(Cookies.get('local_device')=='false' || Cookies.get('local_device')==undefined){
+			Cookies.set('local_device', true, { expires: 365 });
+			console.log("Set cookie [local_device] to [true]");
+			local_device = true;
+		} else {
+			Cookies.set('local_device', false, { expires: 365 });
+			console.log("Set cookie [local_device] to [false]");
+			local_device = false;
+		}
+		$(this).toggleClass("local_device");
+	})
+
 	// Handler loader button clicks
 	$("button.loader").click(function() {
 		console.log($(this).text());

@@ -147,6 +147,10 @@ canvas {
 .loading {
 }
 
+.local_device:after {
+   content:  "\2713 ";
+}
+
 .status-error {
   background-color: $danger;
   height: 10px;
