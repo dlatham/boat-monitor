@@ -47,6 +47,17 @@ cattr_accessor :device_location
 		end
 	end
 
+	def send_power_config(local)
+		# Send the power config to the controller
+		data = JSON.parse(self.power_config)
+		data["sent"] = DateTime.now.to_s
+		if local
+			return post_light_controller(self.local_base_url, "/config/power", data)
+		else
+			return post_light_controller(self.remote_base_url, "/config/power", data)
+		end
+	end
+
 	def error
 	end
 
@@ -56,17 +67,42 @@ cattr_accessor :device_location
 		url = "http://" + base + q  #TODO support SSL selection here
 		Rails.logger.info "Calling light controller [" + self.id.to_s + "] at url [" + url + "]"
 		begin
-			response = HTTP.get(url)
+			response = HTTP.timeout(10).get(url)
 		rescue HTTP::ConnectionError => e
+			response = e
+			self.error
+			Rails.logger.error response
+			return response
+		rescue HTTP::TimeoutError
 			response = { status: "error", message: "Request timeout" }
 			self.error
 			Rails.logger.error response
+			return response
 		else
 			Rails.logger.info response
+			return JSON.parse(response)
 		end
-		return JSON.parse(response)
 	end
 
-
+	def post_light_controller(base, q, body)
+		url = "http://" + base + q  #TODO support SSL selection here
+		Rails.logger.info "Saving to light controller [" + self.id.to_s + "] at url [" + url + "] json data [" + body.to_s + "]"
+		begin
+			response = HTTP.timeout(10).post(url, :json => body)
+		rescue HTTP::ConnectionError => e
+			response = e
+			self.error
+			Rails.logger.error response
+			return response
+		rescue HTTP::TimeoutError
+			response = { status: "error", message: "Request timeout" }
+			self.error
+			Rails.logger.error response
+			return response
+		else
+			Rails.logger.info response
+			return JSON.parse(response)
+		end
+	end
 
 end

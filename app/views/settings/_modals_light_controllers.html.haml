@@ -21,3 +21,10 @@
 			.modal-body
 				%p Lighting controllers are stored globally but the local and remote URLs can be overidden at a device level. You'll set the defaults here.
 				=render "light_controllers/show_form"
+			.modal-footer
+				.row.w-100
+					.col-6.small Unknown Status
+					.col-6.text-right
+						.btn-group
+							%button.btn.btn-outline-primary Get Status
+							%button.btn.btn-primary Send to Controller
