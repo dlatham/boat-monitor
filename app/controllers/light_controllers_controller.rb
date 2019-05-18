@@ -50,6 +50,11 @@ class LightControllersController < ApplicationController
 		end
 	end
 
+	def get_controller_status
+		@light_controller = LightController.find(params[:light_controller_id])
+		render json: @light_controller.get_status(local: local?)
+	end
+
 	private
 
 	def light_controller_params
@@ -79,10 +84,15 @@ class LightControllersController < ApplicationController
     	@light_controller = LightController.find(params[:id])
 		if params[:base] == "local"
 			@light_controller.local_base_url = params[:url]
+			@light_controller.save!
+			return { status: "success", message: "Updates base_urls successfully" }
 		elsif params[:base] == "remote"
 			@light_controller.remote_base_url = params[:url]
+			@light_controller.save!
+			return { status: "success", message: "Updates base_urls successfully" }
 		else
 			Rails.logger.error "LIGHT_CONTROLLERS wrong update base [#{params[:base]}] provided."
+			return { status: "error", message: "Something went wrong" }
 		end
 	end
 end

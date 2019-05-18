@@ -45,6 +45,7 @@ gem 'devise'
 #stuff required to get the HMAC auth working
 gem 'openssl'
 gem 'rest-client'
+gem 'http'
 
 # Not a heavy database use app so we'll use dalayed job instead of resque
 gem 'delayed_job_active_record'

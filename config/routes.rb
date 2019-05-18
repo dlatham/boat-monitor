@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   resources :probes
   resources :bilges
   resources :light_controllers do
-    get 'config', to: 'light_controllers#get_controller_config'    
+    get 'config', to: 'light_controllers#get_controller_config' 
+    get 'status', to: 'light_controllers#get_controller_status'   
   end
   root 'dashboard#main'
   resources :settings, only: [:index] do
