@@ -23,8 +23,8 @@
 				=render "light_controllers/show_form"
 			.modal-footer
 				.row.w-100
-					.col-6.small Unknown Status
+					.col-6.small{ id: "controller_status"} Unknown Status
 					.col-6.text-right
 						.btn-group
-							%button.btn.btn-outline-primary Get Status
-							%button.btn.btn-primary Send to Controller
+							%button.btn.btn-outline-primary.loader{ style: "width: 8rem" } Get Status
+							%button.btn.btn-primary.loader{ style: "width: 10rem", onclick: "send_config_to_controller()" } Send to Controller

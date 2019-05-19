@@ -340,3 +340,60 @@ function new_switch_config()
 	initialize_switch_config(active_controller);
 	$("#switch_config_save").attr("disabled", false);
 }
+
+function send_config_to_controller(){
+	// The client needs to send the configuration in case the controller isn't accessible to the server
+	console.log("Sending configuration to light controller id [" + active_controller_id + "]");
+	// Power config
+	$("#controller_status").text("Sending power on configuration...");
+	var url = "http://" + (local_device ? light_controllers[active_controller]["local_base_url"] : light_controllers[active_controller]["remote_base_url"]) + "/config/power";
+	light_controllers[active_controller]["power_config"]["sent"] = new Date();
+	var data = JSON.stringify(light_controllers[active_controller]["power_config"]);
+	console.log(url);
+	console.log(data);
+	var request = $.ajax({
+		url: url,
+		method: "POST",
+		contentType: "text/plain",
+		data: data,
+		success: function(){
+			$("#controller_status").text("Power configuration sent.");
+			console.log("Power configuration successfully sent.");
+		},
+		error: function() {
+			light_controllers[active_controller]["power_config"]["sent"] = "";
+			alert("Something went wrong.");
+			return;
+		}
+	});
+	$("#controller_status").text("Updating timestamps on the server...");
+	save_light_config("power_config", active_controller_id, light_controllers[active_controller]["power_config"]);
+
+	// Switch config
+	$("#controller_status").text("Sending switch configurations...");
+	var url = "http://" + (local_device ? light_controllers[active_controller]["local_base_url"] : light_controllers[active_controller]["remote_base_url"]) + "/config/switch";
+	light_controllers[active_controller]["switch_config"]["sent"] = new Date();
+	var data = JSON.stringify(light_controllers[active_controller]["switch_config"]);
+	console.log(url);
+	console.log(data);
+	var request = $.ajax({
+		url: url,
+		method: "POST",
+		contentType: "text/plain",
+		data: data,
+		success: function(){
+			$("#controller_status").text("Switch configuration sent.");
+			console.log("Switch configuration successfully sent.");
+		},
+		error: function() {
+			light_controllers[active_controller]["switch_config"]["sent"] = "";
+			alert("Something went wrong.");
+			return;
+		}
+	});
+	$("#controller_status").text("Updating timestamps on the server...");
+	save_light_config("switch_config", active_controller_id, light_controllers[active_controller]["switch_config"]);
+
+	$("#controller_status").text("Updated.");
+
+}
