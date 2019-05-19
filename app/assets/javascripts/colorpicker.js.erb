@@ -87,7 +87,7 @@ function update_color(element, color)
 	} else {
 		if(light_controllers[data["controller"]][data["selector"]])
 		{
-			light_controllers[data["controller"]][data["selector"]]["data"][data["id"]] = { r: color[0], g: color[1], b: color[2] };
+			light_controllers[data["controller"]][data["selector"]]["data"][parseInt(data["id"])] = { r: color[0], g: color[1], b: color[2] };
 		} else {
 			// If there was no existing configuration then we should set everything to black and then select the color--------------FIX THIS PROBLEM.....
 			var new_data = [];
@@ -97,7 +97,7 @@ function update_color(element, color)
 				new_data.push({ r: 0, g: 0, b: 0 });
 			}
 			light_controllers[data["controller"]][data["selector"]]["data"] = new_data;
-			light_controllers[data["controller"]][data["selector"]]["data"][data["id"]] = { r: color[0], g: color[1], b: color[2] };
+			light_controllers[data["controller"]][data["selector"]]["data"][parseInt(data["id"])] = { r: color[0], g: color[1], b: color[2] };
 		}
 		
 	}

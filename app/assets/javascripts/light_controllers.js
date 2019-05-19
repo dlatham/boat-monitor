@@ -313,7 +313,8 @@ function save_light_config(type, id, config)
 	var request = $.ajax({
 		url: baseUrl,
 		method: "PUT",
-		data: data,
+		contentType: "application/json",
+		data: JSON.stringify(data),
 		success: function() {
 			handle_success();
 		},
